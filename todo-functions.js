@@ -1,3 +1,5 @@
+"use strict";
+
 // Fetch existing todos from localStorage
 const getSavedTodos = () => {
   // Check for existing saved data
