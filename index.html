@@ -5,19 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Todo app</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
   </head>
   <body>
+    <header class="header">
+      <div class="container">
+        <h1 class="header__title">To-do App</h1>
+        <h2 class="header__subtitle">What do you need to do?</h2>
+      </div>
+    </header>
+    <div class="actions">
+      <div class="actions__container">
+        <input
+          id="search-text"
+          class="input"
+          type="text"
+          placeholder="Search for a todo"
+        />
+        <label for="" class="checkbox">
+          <input type="checkbox" id="hide-completed" /> Hide Completed
+        </label>
+      </div>
+    </div>
     <div class="container">
-      <h1>Todo App</h1>
-      <input id="search-text" type="text" placeholder="Search for a todo" />
-      <label for="">
-        <input type="checkbox" id="hide-completed" /> Hide Completed
-      </label>
       <div id="todos"></div>
 
       <form id="new-todo-form" action="">
-        <input type="text" placeholder="Something to do" name="text" />
-        <button>Add todo</button>
+        <input
+          type="text"
+          class="input"
+          placeholder="Something to do"
+          name="text"
+        />
+        <button class="button">Add todo</button>
       </form>
     </div>
 
