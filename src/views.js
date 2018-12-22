@@ -1,26 +1,13 @@
-"use strict";
-
-// Fetch existing todos from localStorage
-const getSavedTodos = () => {
-  // Check for existing saved data
-  const todosJSON = localStorage.getItem("todos");
-
-  try {
-    return todosJSON ? JSON.parse(todosJSON) : [];
-  } catch (e) {
-    return [];
-  }
-};
-
-// Save the todos to localStorage
-const saveTodos = todos => {
-  localStorage.setItem("todos", JSON.stringify(todos));
-};
+import { getTodos, toggleTodo, removeTodo } from "./todos";
+import { getFilters } from "./filters";
 
 // Render application todos based on filters
-const renderTodos = (todos, filters) => {
+// Arguments: none
+// Return value: none
+const renderTodos = () => {
   const todoEl = document.querySelector("#todos");
-  const filteredTodos = todos.filter(todo => {
+  const filters = getFilters();
+  const filteredTodos = getTodos().filter(todo => {
     const searchTextMatch = todo.text
       .toLowerCase()
       .includes(filters.searchText.toLowerCase());
@@ -48,25 +35,9 @@ const renderTodos = (todos, filters) => {
   }
 };
 
-// Remove a todo from the list
-const removeTodo = id => {
-  const todoIndex = todos.findIndex(todo => todo.id === id);
-
-  if (todoIndex > -1) {
-    todos.splice(todoIndex, 1);
-  }
-};
-
-// Toggle the completed value for a given todo
-const toggleTodo = id => {
-  const todo = todos.find(todo => todo.id === id);
-
-  if (todo) {
-    todo.completed = !todo.completed;
-  }
-};
-
 // Get the DOM elements for each todo
+// Arguments: todo
+// Return value: the todo element
 const generateTodoDOM = todo => {
   const todoEl = document.createElement("label");
   const containerEl = document.createElement("div");
@@ -80,8 +51,7 @@ const generateTodoDOM = todo => {
   containerEl.appendChild(checkbox);
   checkbox.addEventListener("change", () => {
     toggleTodo(todo.id);
-    saveTodos(todos);
-    renderTodos(todos, filters);
+    renderTodos();
   });
 
   // Setup the todo text
@@ -103,14 +73,15 @@ const generateTodoDOM = todo => {
   todoEl.appendChild(removeBtn);
   removeBtn.addEventListener("click", () => {
     removeTodo(todo.id);
-    saveTodos(todos);
-    renderTodos(todos, filters);
+    renderTodos();
   });
 
   return todoEl;
 };
 
 // Get the DOM elements for list summary
+// Arguments: incompletedTodos
+// Return value: the summary element
 const generateSummaryDOM = incompleteTodos => {
   const summary = document.createElement("h2");
   const plural = incompleteTodos.length === 1 ? "" : "s";
@@ -118,3 +89,6 @@ const generateSummaryDOM = incompleteTodos => {
   summary.textContent = `You have ${incompleteTodos.length} todo${plural} left`;
   return summary;
 };
+
+// Make sure to set up the exports
+export { renderTodos, generateTodoDOM, generateSummaryDOM };
